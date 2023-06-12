@@ -1,0 +1,88 @@
+import tkinter as tk
+from datetime import datetime
+
+class GrantSearchGUI:
+def __init__(self, master):
+self.master = master
+master.title("Grant Search Criteria")
+
+# Company and mission information
+self.company_label = tk.Label(master, text="Company Name:")
+self.company_label.grid(row=0, column=0)
+self.company_entry = tk.Entry(master)
+self.company_entry.grid(row=0, column=1)
+
+self.mission_label = tk.Label(master, text="Mission Statement:")
+self.mission_label.grid(row=1, column=0)
+self.mission_entry = tk.Entry(master)
+self.mission_entry.grid(row=1, column=1)
+
+# Grant scope and size
+self.scope_label = tk.Label(master, text="Grant Scope:")
+self.scope_label.grid(row=2, column=0)
+self.scope_entry = tk.Entry(master)
+self.scope_entry.grid(row=2, column=1)
+
+self.size_label = tk.Label(master, text="Grant Size:")
+self.size_label.grid(row=3, column=0)
+self.size_entry = tk.Entry(master)
+self.size_entry.grid(row=3, column=1)
+
+# Grant deadline
+self.deadline_label = tk.Label(master, text="Grant Deadline (mm/dd/yyyy):")
+self.deadline_label.grid(row=4, column=0)
+self.deadline_entry = tk.Entry(master)
+self.deadline_entry.grid(row=4, column=1)
+
+# Number of grants to search for
+self.num_grants_label = tk.Label(master, text="Number of Grants to Search For:")
+self.num_grants_label.grid(row=5, column=0)
+self.num_grants_entry = tk.Entry(master)
+self.num_grants_entry.grid(row=5, column=1)
+
+# Other relevant fields
+self.other_label = tk.Label(master, text="Other Relevant Fields:")
+self.other_label.grid(row=6, column=0)
+self.other_entry = tk.Entry(master)
+self.other_entry.grid(row=6, column=1)
+
+# Submit button
+self.submit_button = tk.Button(master, text="Submit", command=self.submit)
+self.submit_button.grid(row=7, column=1)
+
+def submit(self):
+# Get user input
+company = self.company_entry.get()
+mission = self.mission_entry.get()
+scope = self.scope_entry.get()
+size = self.size_entry.get()
+deadline_str = self.deadline_entry.get()
+num_grants = self.num_grants_entry.get()
+other = self.other_entry.get()
+
+# Check if deadline is in the future
+deadline = datetime.strptime(deadline_str, '%m/%d/%Y')
+if deadline < datetime.now():
+tk.messagebox.showerror("Error", "Grant deadline must be in the future.")
+return
+
+# Save user input and close GUI
+self.master.grant_criteria = {
+"company": company,
+"mission": mission,
+"scope": scope,
+"size": size,
+"deadline": deadline,
+"num_grants": num_grants,
+"other": other
+}
+self.master.destroy()
+
+root = tk.Tk()
+gui = GrantSearchGUI(root)
+root.mainloop()
+
+# Access user input
+grant_criteria = root.grant_criteria
+print(grant_criteria)
+```
